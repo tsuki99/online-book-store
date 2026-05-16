@@ -50,13 +50,4 @@ public class BookServiceImpl implements BookService {
 
         return bookMapper.toDto(bookRepository.save(book));
     }
-
-    private void setNewFields(Book book, CreateBookRequestDto requestDto) {
-        book.setTitle(requestDto.getTitle());
-        book.setAuthor(requestDto.getAuthor());
-        book.setIsbn(requestDto.getIsbn());
-        book.setPrice(requestDto.getPrice());
-        book.setDescription(requestDto.getDescription());
-        book.setCoverImage(requestDto.getCoverImage());
-    }
 }
