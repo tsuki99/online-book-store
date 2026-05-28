@@ -1,15 +1,17 @@
 package mate.academy.springbootweb.service;
 
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import mate.academy.springbootweb.dto.book.BookDto;
 import mate.academy.springbootweb.dto.book.BookSearchParameters;
 import mate.academy.springbootweb.dto.book.CreateBookRequestDto;
+import mate.academy.springbootweb.dto.page.PageDto;
 import mate.academy.springbootweb.exception.EntityNotFoundException;
 import mate.academy.springbootweb.mapper.BookMapper;
 import mate.academy.springbootweb.model.Book;
 import mate.academy.springbootweb.repository.SpecificationBuilder;
 import mate.academy.springbootweb.repository.book.BookRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -28,10 +30,15 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<BookDto> findAll() {
-        return bookRepository.findAll().stream()
-                .map(bookMapper::toDto)
-                .toList();
+    public PageDto<BookDto> findAll(Pageable pageable) {
+        Page<BookDto> page = bookRepository.findAll(pageable).map(bookMapper::toDto);
+
+        return new PageDto<>(
+                page.getContent(),
+                page.getNumber(),
+                page.getSize(),
+                page.getTotalElements(),
+                page.getTotalPages());
     }
 
     @Override
@@ -56,12 +63,19 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<BookDto> search(BookSearchParameters searchParameters) {
+    public PageDto<BookDto> search(BookSearchParameters searchParameters, Pageable pageable) {
         Specification<Book> bookSpecification = bookSpecificationBuilder
                 .build(searchParameters);
 
-        return bookRepository.findAll(bookSpecification).stream()
-                .map(bookMapper::toDto)
-                .toList();
+        Page<BookDto> page = bookRepository
+                .findAll(bookSpecification, pageable)
+                .map(bookMapper::toDto);
+
+        return new PageDto<>(
+                page.getContent(),
+                page.getNumber(),
+                page.getSize(),
+                page.getTotalElements(),
+                page.getTotalPages());
     }
 }
