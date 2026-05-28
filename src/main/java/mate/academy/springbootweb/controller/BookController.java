@@ -1,6 +1,7 @@
 package mate.academy.springbootweb.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import mate.academy.springbootweb.dto.book.BookDto;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/books")
+@Tag(name = "Books", description = "Endpoints for managing books")
 public class BookController {
     private static final String FIELD_TITLE = "title";
     private final BookService bookService;
