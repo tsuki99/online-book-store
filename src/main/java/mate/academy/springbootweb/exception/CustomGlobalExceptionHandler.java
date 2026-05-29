@@ -1,8 +1,10 @@
 package mate.academy.springbootweb.exception;
 
 import java.util.List;
+import mate.academy.springbootweb.dto.error.ErrorDto;
 import mate.academy.springbootweb.dto.error.ErrorResponse;
 import mate.academy.springbootweb.dto.error.FieldErrorDto;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -19,5 +21,10 @@ public class CustomGlobalExceptionHandler {
                 .toList();
 
         return ResponseEntity.badRequest().body(new ErrorResponse(errors));
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<ErrorDto> handleEntityNotFount(EntityNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorDto(ex.getMessage()));
     }
 }
