@@ -24,7 +24,12 @@ public class CustomGlobalExceptionHandler {
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<ErrorDto> handleEntityNotFount(EntityNotFoundException ex) {
+    public ResponseEntity<ErrorDto> handleEntityNotFound(EntityNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorDto(ex.getMessage()));
+    }
+
+    @ExceptionHandler(RegistrationException.class)
+    public ResponseEntity<ErrorDto> handleRegistrationException(RegistrationException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(new ErrorDto(ex.getMessage()));
     }
 }

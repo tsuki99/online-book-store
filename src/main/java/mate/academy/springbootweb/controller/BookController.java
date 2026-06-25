@@ -8,7 +8,7 @@ import mate.academy.springbootweb.dto.book.BookDto;
 import mate.academy.springbootweb.dto.book.BookSearchParameters;
 import mate.academy.springbootweb.dto.book.CreateBookRequestDto;
 import mate.academy.springbootweb.dto.page.PageDto;
-import mate.academy.springbootweb.service.BookService;
+import mate.academy.springbootweb.service.book.BookService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -35,7 +35,8 @@ public class BookController {
 
     @Operation(
             summary = "Get all books",
-            description = "Retrieve all books from db " + DEFAULT_SORT_DESCRIPTION)
+            description = "Retrieve all books from db " + DEFAULT_SORT_DESCRIPTION
+    )
     @GetMapping
     public PageDto<BookDto> getAll(@PageableDefault(sort = FIELD_TITLE,
             direction = Sort.Direction.ASC) Pageable pageable) {
@@ -44,7 +45,8 @@ public class BookController {
 
     @Operation(
             summary = "Get book by id",
-            description = "Retrieve a book by its id")
+            description = "Retrieve a book by its id"
+    )
     @GetMapping("/{id}")
     public BookDto getById(@PathVariable Long id) {
         return bookService.findBookById(id);
@@ -52,7 +54,8 @@ public class BookController {
 
     @Operation(
             summary = "Save book",
-            description = "Save a new book to the database")
+            description = "Save a new book to the database"
+    )
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public BookDto save(@RequestBody @Valid CreateBookRequestDto bookDto) {
@@ -61,7 +64,8 @@ public class BookController {
 
     @Operation(
             summary = "Delete book",
-            description = "Delete a book by its id")
+            description = "Delete a book by its id"
+    )
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteById(@PathVariable Long id) {
@@ -70,16 +74,19 @@ public class BookController {
 
     @Operation(
             summary = "Update book",
-            description = "Update an existing book by its id")
+            description = "Update an existing book by its id"
+    )
     @PutMapping("/{id}")
     public BookDto updateById(@PathVariable Long id,
-                              @RequestBody @Valid CreateBookRequestDto requestDto) {
+                              @RequestBody @Valid CreateBookRequestDto requestDto
+    ) {
         return bookService.updateById(id, requestDto);
     }
 
     @Operation(
             summary = "Search books",
-            description = "Search books by parameters " + DEFAULT_SORT_DESCRIPTION)
+            description = "Search books by parameters " + DEFAULT_SORT_DESCRIPTION
+    )
     @GetMapping("/search")
     public PageDto<BookDto> search(BookSearchParameters bookSearchParameters,
                                    @PageableDefault(sort = FIELD_TITLE,

@@ -1,4 +1,4 @@
-package mate.academy.springbootweb.service;
+package mate.academy.springbootweb.service.book;
 
 import mate.academy.springbootweb.dto.book.BookDto;
 import mate.academy.springbootweb.dto.book.BookSearchParameters;
