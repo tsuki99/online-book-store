@@ -13,11 +13,12 @@ import mate.academy.springbootweb.repository.role.RoleRepository;
 import mate.academy.springbootweb.repository.user.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
-    private static final RoleName DEFAULT_ROLE = RoleName.USER;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final UserMapper userMapper;
@@ -33,9 +34,9 @@ public class UserServiceImpl implements UserService {
         }
 
         User user = userMapper.toModel(requestDto);
-        user.setRoles(Set.of(roleRepository.findByName(DEFAULT_ROLE).orElseThrow(
+        user.setRoles(Set.of(roleRepository.findByName(RoleName.USER).orElseThrow(
                 () -> new EntityNotFoundException(
-                        "Can't find role by name: " + DEFAULT_ROLE.name())))
+                        "Can't find role by name: " + RoleName.USER.name())))
         );
         user.setPassword(passwordEncoder.encode(requestDto.getPassword()));
         User savedUser = userRepository.save(user);
