@@ -5,7 +5,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import mate.academy.springbootweb.dto.cartitem.AddCartItemRequestDto;
-import mate.academy.springbootweb.dto.cartitem.CartItemDto;
 import mate.academy.springbootweb.dto.cartitem.UpdateCartItemRequestDto;
 import mate.academy.springbootweb.dto.shoppingcart.ShoppingCartDto;
 import mate.academy.springbootweb.service.shoppingcart.ShoppingCartService;
@@ -46,7 +45,7 @@ public class ShoppingCartController {
     @PreAuthorize("hasAuthority('USER')")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CartItemDto addBookToShoppingCart(
+    public ShoppingCartDto addBookToShoppingCart(
             @RequestBody @Valid AddCartItemRequestDto requestDto) {
         return shoppingCartService.addBooksToShoppingCart(requestDto);
     }
@@ -57,7 +56,7 @@ public class ShoppingCartController {
     )
     @PreAuthorize("hasAuthority('USER')")
     @PutMapping("/items/{id}")
-    public CartItemDto updateBookQuantityByBookId(
+    public ShoppingCartDto updateBookQuantityByBookId(
             @PathVariable Long id,
             @RequestBody @Valid UpdateCartItemRequestDto requestDto
     ) {
