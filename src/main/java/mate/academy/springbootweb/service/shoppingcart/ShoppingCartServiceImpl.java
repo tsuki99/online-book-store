@@ -31,6 +31,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     private final BookRepository bookRepository;
     private final ShoppingCartMapper shoppingCartMapper;
 
+    @Override
     public void createShoppingCart(User user) {
         ShoppingCart newShoppingCart = new ShoppingCart();
         newShoppingCart.setUser(user);

@@ -25,7 +25,6 @@ import org.hibernate.annotations.SQLRestriction;
 @Table(name = "shopping_carts")
 public class ShoppingCart {
     @Id
-    @Column(name = "user_id")
     private Long id;
     @MapsId
     @OneToOne(fetch = FetchType.LAZY)
