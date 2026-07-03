@@ -10,7 +10,9 @@ import mate.academy.springbootweb.mapper.UserMapper;
 import mate.academy.springbootweb.model.User;
 import mate.academy.springbootweb.model.enums.RoleName;
 import mate.academy.springbootweb.repository.role.RoleRepository;
+import mate.academy.springbootweb.repository.shoppingcart.ShoppingCartRepository;
 import mate.academy.springbootweb.repository.user.UserRepository;
+import mate.academy.springbootweb.service.shoppingcart.ShoppingCartService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +23,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final ShoppingCartRepository shoppingCartRepository;
+    private final ShoppingCartService shoppingCartService;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
 
@@ -40,6 +44,8 @@ public class UserServiceImpl implements UserService {
         );
         user.setPassword(passwordEncoder.encode(requestDto.getPassword()));
         User savedUser = userRepository.save(user);
+
+        shoppingCartService.createShoppingCart(savedUser);
 
         return userMapper.toUserResponseDto(savedUser);
     }
