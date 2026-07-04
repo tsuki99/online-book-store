@@ -11,8 +11,8 @@ import mate.academy.springbootweb.dto.order.OrderDto;
 import mate.academy.springbootweb.dto.order.UpdateOrderRequestDto;
 import mate.academy.springbootweb.dto.orderitem.OrderItemDto;
 import mate.academy.springbootweb.dto.page.PageDto;
-import mate.academy.springbootweb.exception.EmptyShoppingCartException;
 import mate.academy.springbootweb.exception.EntityNotFoundException;
+import mate.academy.springbootweb.exception.OrderProcessingException;
 import mate.academy.springbootweb.mapper.OrderItemMapper;
 import mate.academy.springbootweb.mapper.OrderMapper;
 import mate.academy.springbootweb.mapper.page.PageMapper;
@@ -54,7 +54,7 @@ public class OrderServiceImpl implements OrderService {
         ShoppingCart shoppingCart = getShoppingCart();
 
         if (shoppingCart.getCartItems().isEmpty()) {
-            throw new EmptyShoppingCartException(EMPTY_SHOPPING_CART_MESSAGE);
+            throw new OrderProcessingException(EMPTY_SHOPPING_CART_MESSAGE);
         }
 
         Order newOrder = createNewOrder(shoppingCart, requestDto.getShippingAddress());

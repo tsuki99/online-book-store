@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>mate.academy</groupId>
-	<artifactId>spring-boot-web</artifactId>
+	<artifactId>online-book-store</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>spring-boot-web</name>
-	<description>Demo project for Spring Boot</description>
+	<name>online-book-store</name>
+	<description>REST API for an online book store</description>
 	<url/>
 	<licenses>
 		<license/>

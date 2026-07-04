@@ -33,9 +33,9 @@ public class CustomGlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(new ErrorDto(ex.getMessage()));
     }
 
-    @ExceptionHandler(EmptyShoppingCartException.class)
-    public ResponseEntity<ErrorDto> handleEmptyShoppingCartException(
-            EmptyShoppingCartException ex) {
+    @ExceptionHandler(OrderProcessingException.class)
+    public ResponseEntity<ErrorDto> handleOrderProcessingException(
+            OrderProcessingException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorDto(ex.getMessage()));
     }
 }
