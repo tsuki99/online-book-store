@@ -13,7 +13,6 @@ import mate.academy.springbootweb.model.User;
 import mate.academy.springbootweb.repository.book.BookRepository;
 import mate.academy.springbootweb.repository.cartitem.CartItemRepository;
 import mate.academy.springbootweb.repository.shoppingcart.ShoppingCartRepository;
-import mate.academy.springbootweb.security.SecurityUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,15 +20,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @RequiredArgsConstructor
 public class ShoppingCartServiceImpl implements ShoppingCartService {
-    private static final String NOT_FOUND_SHOPPING_CART_MESSAGE =
-            "Can't find shopping cart by user id: ";
     private static final String NOT_FOUND_CART_ITEM_MESSAGE = "Can't find cart item by id: ";
     private static final String NOT_FOUND_BOOK_MESSAGE = "Can't find book by id: ";
-    private final SecurityUtil securityUtil;
     private final ShoppingCartRepository shoppingCartRepository;
     private final CartItemRepository cartItemRepository;
     private final BookRepository bookRepository;
     private final ShoppingCartMapper shoppingCartMapper;
+    private final ShoppingCartProvider shoppingCartProvider;
 
     @Override
     public void createShoppingCart(User user) {
@@ -95,14 +92,16 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         shoppingCartRepository.save(userShoppingCart);
     }
 
-    private ShoppingCart getShoppingCart() {
-        User user = securityUtil.getCurrentUser();
+    @Override
+    public void clear() {
+        ShoppingCart userShoppingCart = getShoppingCart();
 
-        return shoppingCartRepository.findByUserId(user.getId()).orElseThrow(
-                        () -> new EntityNotFoundException(
-                                NOT_FOUND_SHOPPING_CART_MESSAGE + user.getId()
-                        )
-        );
+        userShoppingCart.getCartItems().clear();
+        shoppingCartRepository.save(userShoppingCart);
+    }
+
+    private ShoppingCart getShoppingCart() {
+        return shoppingCartProvider.getUserShoppingCart();
     }
 
     private CartItem getCartItem(Long cartItemId, Long shoppingCartId) {

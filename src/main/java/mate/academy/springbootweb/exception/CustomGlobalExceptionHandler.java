@@ -24,12 +24,18 @@ public class CustomGlobalExceptionHandler {
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<ErrorDto> handleEntityNotFound(EntityNotFoundException ex) {
+    public ResponseEntity<ErrorDto> handleEntityNotFoundException(EntityNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorDto(ex.getMessage()));
     }
 
     @ExceptionHandler(RegistrationException.class)
     public ResponseEntity<ErrorDto> handleRegistrationException(RegistrationException ex) {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(new ErrorDto(ex.getMessage()));
+    }
+
+    @ExceptionHandler(EmptyShoppingCartException.class)
+    public ResponseEntity<ErrorDto> handleEmptyShoppingCartException(
+            EmptyShoppingCartException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorDto(ex.getMessage()));
     }
 }
