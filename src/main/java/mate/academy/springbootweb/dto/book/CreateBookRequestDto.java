@@ -8,9 +8,11 @@ import jakarta.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.util.Set;
 import lombok.Data;
+import lombok.experimental.Accessors;
 import mate.academy.springbootweb.validation.ValidIsbn;
 
 @Data
+@Accessors(chain = true)
 public class CreateBookRequestDto {
     @NotBlank
     @Size(min = 2, max = 100)
