@@ -1,0 +1,2 @@
+DELETE FROM shopping_carts
+WHERE user_id = 100;
