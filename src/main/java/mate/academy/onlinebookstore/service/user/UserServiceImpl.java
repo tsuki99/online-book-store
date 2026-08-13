@@ -1,0 +1,52 @@
+package mate.academy.onlinebookstore.service.user;
+
+import java.util.Set;
+import lombok.RequiredArgsConstructor;
+import mate.academy.onlinebookstore.dto.user.UserRegistrationRequestDto;
+import mate.academy.onlinebookstore.dto.user.UserResponseDto;
+import mate.academy.onlinebookstore.exception.EntityNotFoundException;
+import mate.academy.onlinebookstore.exception.RegistrationException;
+import mate.academy.onlinebookstore.mapper.UserMapper;
+import mate.academy.onlinebookstore.model.User;
+import mate.academy.onlinebookstore.model.enums.RoleName;
+import mate.academy.onlinebookstore.repository.role.RoleRepository;
+import mate.academy.onlinebookstore.repository.shoppingcart.ShoppingCartRepository;
+import mate.academy.onlinebookstore.repository.user.UserRepository;
+import mate.academy.onlinebookstore.service.shoppingcart.ShoppingCartService;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
+@Transactional
+@RequiredArgsConstructor
+public class UserServiceImpl implements UserService {
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
+    private final ShoppingCartRepository shoppingCartRepository;
+    private final ShoppingCartService shoppingCartService;
+    private final UserMapper userMapper;
+    private final PasswordEncoder passwordEncoder;
+
+    @Override
+    public UserResponseDto register(UserRegistrationRequestDto requestDto)
+            throws RegistrationException {
+
+        String email = requestDto.getEmail();
+        if (userRepository.existsByEmail(email)) {
+            throw new RegistrationException("User with email: " + email + " already exists");
+        }
+
+        User user = userMapper.toModel(requestDto);
+        user.setRoles(Set.of(roleRepository.findByName(RoleName.USER).orElseThrow(
+                () -> new EntityNotFoundException(
+                        "Can't find role by name: " + RoleName.USER.name())))
+        );
+        user.setPassword(passwordEncoder.encode(requestDto.getPassword()));
+        User savedUser = userRepository.save(user);
+
+        shoppingCartService.createShoppingCart(savedUser);
+
+        return userMapper.toUserResponseDto(savedUser);
+    }
+}

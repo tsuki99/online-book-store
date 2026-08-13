@@ -1,0 +1,3 @@
+INSERT INTO shopping_carts (user_id, is_deleted)
+VALUES
+(100, 0);
