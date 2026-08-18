@@ -25,12 +25,6 @@ public class TestUtil {
     private static final String SECOND_BOOK_TITLE_EXAMPLE = "Spring in Action";
     private static final Long SECOND_BOOK_ID_EXAMPLE = 2L;
     private static final int INCREASED_QUANTITY = 2;
-    private static final String NOT_FOUND_CART_ITEM_MESSAGE = "Can't find cart item by id: ";
-    private static final String NOT_FOUND_BOOK_MESSAGE = "Can't find book by id: ";
-    private static final Long SECOND_ID_EXAMPLE = 101L;
-    private static final Long NON_EXISTING_ID_EXAMPLE = 999L;
-    private static final int FIRST_ARGUMENT_INDEX = 0;
-    private static final int EMPTY_SHOPPING_CART_SIZE = 0;
     private static final Long USER_ROLE_ID = 1L;
     private static final RoleName ROLE_NAME_USER = RoleName.USER;
     private static final String USER_PASSWORD_EXAMPLE =
